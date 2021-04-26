@@ -42,6 +42,8 @@ async function setupWeb3() {
         } else {
             // se trata de utilizar una que haya abierta
             web3.eth.defaultAccount =   (await web3.eth.getAccounts())[0]
+            // Cambiamos el timeout que por defecto es 750
+            web3.eth.transactionPollingTimeout = 250
         }
 	web3.bfa	            =   {
 		txnonce: await web3.eth.getTransactionCount(web3.eth.defaultAccount),
@@ -65,7 +67,7 @@ async function setupWeb3() {
             contractAddress         =   data.networks[netId].address
         }
 
-        console.log(`Conectado exitosamente: 
+        console.log(`Conectado exitosamente:
  > host: ${providerHost}
  > netId: ${netId}
  > account: ${web3.eth.defaultAccount}
@@ -154,7 +156,7 @@ app.post('/stamp', async (req, res) => {
     try
     {
         let     txHash              =   await ss.stamp(hashes, walletAccount)
-        //let   fullUrl             =   req.protocol + '://' + req.get('host')        
+        //let   fullUrl             =   req.protocol + '://' + req.get('host')
         console.log(">>>> Stamp OK <<<<");
         res.json({
             status: 'ok',
@@ -187,7 +189,7 @@ app.get('/verify/:hash', async (req, res) => {
         console.error(e)
         res.status(404)
         res.send("No existe el hash en la base de datos")
-    } 
+    }
 })
 
 // app.get('/status/:txHash', async (req, res) => {
