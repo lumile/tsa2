@@ -20,7 +20,7 @@ class Stamper {
 
             for (let i=0; i < objects.length; i++) {
                 let blockNo = await this.contract.methods.getBlockNo(objects[i], defaultAccount).call()
-                if (blockNo == 0){                
+                if (blockNo == 0){
                     objectsToStamp.push(objects[i]);
     	        } else {
             	    console.log(`already stamped: ` + objects[i] + ' blockNro: ' + blockNo);
@@ -34,10 +34,10 @@ class Stamper {
             }
 
             if (objectsToStamp.length == 0) return new Promise( (resolve) => {
-                console.log(`Los objects enviados ya están stampeados`)            
+                console.log(`Los objects enviados ya están stampeados`)
                 resolve(objectsStamped)
-            })        
-            
+            })
+
             console.log(`stamping ` +  objectsToStamp.join(', '));
 
             let txPromise
@@ -68,7 +68,7 @@ class Stamper {
                 // txPromise = this.web3.eth.sendSignedTransaction('0x' + signedTx.serialize().toString('hex'))
 		console.log("Envio TX firmada");
                 txPromise = this.web3.eth.sendSignedTransaction(signedTx.rawTransaction) // Apliqué el await para que espere a que finalice la operación
-                
+
                 let tx_result = []; // Objeto que contiene la info de la TX
 
                 if(txPromise.status == true){
@@ -77,7 +77,7 @@ class Stamper {
                         block_number: txPromise.blockNumber,
                         hash: txPromise.transactionHash,
                     };
-                } else {                
+                } else {
                     tx_result = {
                         status: 'error',
                         block_number: '-',
@@ -85,7 +85,7 @@ class Stamper {
                     };
                 }
 
-                
+
                 for (let i=0; i < objectsToStamp.length; i++) {
                         // Creo un nuevo objeto con la info de la tx realizada
                         let new_object = {
@@ -139,7 +139,7 @@ class Stamper {
         web3.eth.getBlockNumber()
             .then(
         (startnum) => {
-                setTimeout( 
+                setTimeout(
                 function nextblock()
                 {
                         web3.eth.getBlockNumber()
