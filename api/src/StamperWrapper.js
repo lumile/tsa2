@@ -68,35 +68,6 @@ class Stamper {
                 // txPromise = this.web3.eth.sendSignedTransaction('0x' + signedTx.serialize().toString('hex'))
 		console.log("Envio TX firmada");
                 txPromise = this.web3.eth.sendSignedTransaction(signedTx.rawTransaction) // Apliqué el await para que espere a que finalice la operación
-
-                let tx_result = []; // Objeto que contiene la info de la TX
-
-                if(txPromise.status == true){
-                    tx_result = {
-                        status: 'stamped',
-                        block_number: txPromise.blockNumber,
-                        hash: txPromise.transactionHash,
-                    };
-                } else {
-                    tx_result = {
-                        status: 'error',
-                        block_number: '-',
-                        hash: '-',
-                    };
-                }
-
-
-                for (let i=0; i < objectsToStamp.length; i++) {
-                        // Creo un nuevo objeto con la info de la tx realizada
-                        let new_object = {
-                            hash: objectsToStamp[i],
-                            block_number: tx_result.block_number,
-                            status: tx_result.status,
-                            tx_hash: tx_result.hash,
-                        }
-                        // Agrego el objeto al array de objetos stampados (incluye los que ya fueron stampados, si los hubiese, y los nuevos)
-                        objectsStamped.push(new_object)
-                    }
             } else {
 		console.log("Entra por el bloque elseIf");
                 txPromise = await this.contract.methods.put(objectsToStamp).send({
@@ -105,6 +76,34 @@ class Stamper {
                 })
             }
 
+            let tx_result = []; // Objeto que contiene la info de la TX
+
+            if(txPromise.status == true){
+                tx_result = {
+                    status: 'stamped',
+                    block_number: txPromise.blockNumber,
+                    hash: txPromise.transactionHash,
+                };
+            } else {
+                tx_result = {
+                    status: 'error',
+                    block_number: '-',
+                    hash: '-',
+                };
+            }
+
+
+            for (let i=0; i < objectsToStamp.length; i++) {
+                    // Creo un nuevo objeto con la info de la tx realizada
+                    let new_object = {
+                        hash: objectsToStamp[i],
+                        block_number: tx_result.block_number,
+                        status: tx_result.status,
+                        tx_hash: tx_result.hash,
+                    }
+                    // Agrego el objeto al array de objetos stampados (incluye los que ya fueron stampados, si los hubiese, y los nuevos)
+                    objectsStamped.push(new_object)
+                }
             // Retorno un array con todos los objetos stampados
             return objectsStamped;
         } catch (e) {
