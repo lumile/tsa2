@@ -233,3 +233,11 @@ También se puede cambiar los textos de la app modificando todos los labels (```
 Es **importante** notar que la url de la api se configura en el atributo ***apiurl*** del div con id ```app```. Esto tiene que apuntar a la URL donde se eligió ejecutar la API. En este caso apunta a la API de producción hosteada por buenosaires.gob.ar
 
 **Ver más detalles en el README dentro del directorio ```ui```** 
+
+### TIPS resultantes de las pruebas de esta api contra un nodo transaccional en cloud10.
+Para que se pueda estampar el timestamp en los hash que se suban a la blockchain se tienen que cumplir estos 2 puntos:
+1. En primer lugar tener el nodo transaccional sincronizado con el resto de los nodos. Para hacer eso el nodo usa puerto 30303, tanto tcp como udp.
+2. Haber crear una cuenta en ese nodo
+3. Solicitar eth en el telegram de BFA para que se pueda realizar la transacción.
+
+Cumplido estos pasos, se puede enviar a ...
