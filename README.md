@@ -235,9 +235,32 @@ Es **importante** notar que la url de la api se configura en el atributo ***apiu
 **Ver más detalles en el README dentro del directorio ```ui```** 
 
 ### TIPS resultantes de las pruebas de esta api contra un nodo transaccional en cloud10.
-Para que se pueda estampar el timestamp en los hash que se suban a la blockchain se tienen que cumplir estos 2 puntos:
+Para que se pueda estampar el timestamp en los hash que se suban a la blockchain se tienen que cumplir estos 3 puntos:
 1. En primer lugar tener el nodo transaccional sincronizado con el resto de los nodos. Para hacer eso el nodo usa puerto 30303, tanto tcp como udp.
 2. Haber crear una cuenta en ese nodo
 3. Solicitar eth en el telegram de BFA para que se pueda realizar la transacción.
 
-Cumplido estos pasos, se puede enviar a ...
+Cumplido estos pasos, se puede enviar a un hash de prueba vía curl así:
+```
+curl 'http://localhost:3000/stamp' \                                                                   
+  -H 'Connection: keep-alive' \
+  -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"' \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36' \
+  -H 'Content-Type: application/json;charset=UTF-8' \
+  -H 'Origin: http://localhost:8081' \
+  -H 'Sec-Fetch-Site: cross-site' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: http://localhost:8081/' \
+  -H 'Accept-Language: es-ES,es;q=0.9,en;q=0.8' \
+  --data-raw '{"hashes":["12828d56dee893e3564951f7c5e968ffa2c113fd72e3c374269c657e1f1f9879"]}' \
+  --compressed```
+  ```
+  
+  Se puede verificar si el hash esta estampeado, vía curl, así:
+  ```
+   curl 'http://localhost:3000/verify/12828d56dee893e3564951f7c5e968ffa2c113fd72e3c374269c657e1f1f9879'
+   ```
+   
